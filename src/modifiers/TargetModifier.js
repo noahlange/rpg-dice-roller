@@ -125,11 +125,11 @@ class TargetModifier extends ComparisonModifier {
    * Runs the modifier on the rolls
    *
    * @param {RollResults} results
-   * @param {StandardDice} _dice
+   * @param {StandardDice} _context
    *
    * @returns {RollResults}
    */
-  run(results, _dice) {
+  run(results, _context) {
     // loop through each roll and see if it matches the target
     results.rolls
       .map((roll) => {

@@ -90,11 +90,11 @@ class KeepModifier extends Modifier {
    * Runs the modifier on the rolls
    *
    * @param {RollResults} results
-   * @param {StandardDice} _dice
+   * @param {StandardDice} _context
    *
    * @returns {RollResults}
    */
-  run(results, _dice) {
+  run(results, _context) {
     // first clone the rolls so it doesn't affect the original array
     const rollIndexes = [...results.rolls]
       // get a list of objects with roll values and original index

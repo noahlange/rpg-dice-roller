@@ -12,11 +12,11 @@ class CriticalSuccessModifier extends ComparisonModifier {
    * Runs the modifier on the rolls
    *
    * @param {RollResults} results
-   * @param {StandardDice} _dice
+   * @param {StandardDice} _context
    *
    * @returns {RollResults}
    */
-  run(results, _dice) {
+  run(results, _context) {
     // loop through each roll and see if it's a critical success
     results.rolls
       .map((roll) => {

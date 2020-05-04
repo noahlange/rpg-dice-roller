@@ -41,14 +41,14 @@ class ReRollModifier extends ComparisonModifier {
    * Runs the modifier on the rolls
    *
    * @param {RollResults} results
-   * @param {StandardDice} _dice
+   * @param {StandardDice} _context
    *
    * @returns {RollResults}
    */
-  run(results, _dice) {
+  run(results, _context) {
     // ensure that the dice can explode without going into an infinite loop
-    if (_dice.min === _dice.max) {
-      throw new DieActionValueError(_dice, 're-roll');
+    if (_context.min === _context.max) {
+      throw new DieActionValueError(_context, 're-roll');
     }
 
     results.rolls
@@ -59,7 +59,7 @@ class ReRollModifier extends ComparisonModifier {
         // we should re-roll if any consecutive rolls also match the CP
         while (this.isComparePoint(roll.value) && (!this.once || !hasReRolled)) {
           // roll the dice
-          const rollResult = _dice.rollOnce();
+          const rollResult = _context.rollOnce();
 
           // update the roll value (Unlike exploding, the original value if not kept)
           // eslint-disable-next-line no-param-reassign

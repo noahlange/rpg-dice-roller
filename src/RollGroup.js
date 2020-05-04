@@ -3,25 +3,29 @@ import ExplodeModifier from './modifiers/ExplodeModifier';
 import Modifier from './modifiers/Modifier';
 import ReRollModifier from './modifiers/ReRollModifier';
 import RequiredArgumentError from './exceptions/RequiredArgumentErrorError';
+import HasExpressionsTrait from './HasExpressionsTrait';
+import NotationError from './exceptions/NotationError';
 
 const modifiersSymbol = Symbol('modifiers');
 const notationSymbol = Symbol('notation');
-const expressionsSymbol = Symbol('expressions');
 
-class RollGroup {
+class RollGroup extends HasExpressionsTrait {
   /**
    *
    * @param {string} notation
-   * @param {StandardDice[]} expressions
+   * @param {[]} expressions
    * @param {Map|{}|Map[]|null=} modifiers
    */
   constructor(notation, expressions, modifiers = null) {
     if (!notation) {
       throw new RequiredArgumentError('notation');
+    } else if (typeof notation !== 'string') {
+      throw new NotationError(notation);
     }
 
+    super(expressions);
+
     this[notationSymbol] = notation;
-    this.expressions = expressions || [];
 
     if (modifiers) {
       this.modifiers = modifiers;
@@ -29,53 +33,9 @@ class RollGroup {
   }
 
   /**
-   * The expressions in this group
-   *
-   * @returns {[]}
-   */
-  get expressions() {
-    return [...(this[expressionsSymbol] || [])];
-  }
-
-  /**
-   * Sets the expressions
-   *
-   * @param {[]} expressions
-   */
-  set expressions(expressions) {
-    if (!expressions) {
-      throw new RequiredArgumentError('expressions is required');
-    }
-
-    if (!Array.isArray(expressions)) {
-      throw new TypeError(`expressions must be an array: ${expressions}`);
-    }
-
-    if (expressions.length === 0) {
-      throw new TypeError(`expressions cannot be empty: ${expressions}`);
-    }
-
-    expressions.forEach((e) => {
-      if (!e || !Array.isArray(e)) {
-        throw new TypeError(`expressions must be an array of arrays: ${expressions}`);
-      }
-
-      if (e.length === 0) {
-        throw new TypeError(`Sub expressions cannot be empty: ${expressions}`);
-      }
-    });
-
-    // loop through each expression and add it to the list
-    this[expressionsSymbol] = [];
-    expressions.forEach((expression) => {
-      this.addExpression(expression);
-    });
-  }
-
-  /**
    * The modifiers that affect this group
    *
-   * @returns {Map|null}
+   * @returns {Map}
    */
   get modifiers() {
     if (this[modifiersSymbol]) {
@@ -83,7 +43,7 @@ class RollGroup {
       return new Map([...this[modifiersSymbol]].sort((a, b) => a[1].order - b[1].order));
     }
 
-    return null;
+    return new Map();
   }
 
   /**
@@ -134,8 +94,14 @@ class RollGroup {
     return this[notationSymbol];
   }
 
-  addExpression(value) {
-    this[expressionsSymbol].push(value);
+  /**
+   * Returns the roll notation and rolls in the format of:
+   * {[20,2], [2]}
+   *
+   * @returns {string}
+   */
+  get output() {
+    return `{${super.output}}`;
   }
 
   /**
@@ -144,18 +110,16 @@ class RollGroup {
    * @returns {{}}
    */
   toJSON() {
-    const { modifiers, notation, expressions } = this;
+    const { modifiers, notation } = this;
 
-    return {
-      expressions,
-      modifiers,
-      notation,
-      type: 'group',
-    };
-  }
-
-  toString() {
-    return this.notation;
+    return Object.assign(
+      super.toJSON(),
+      {
+        modifiers,
+        notation,
+        type: 'group',
+      },
+    );
   }
 }
 

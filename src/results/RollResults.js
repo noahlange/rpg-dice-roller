@@ -4,14 +4,14 @@ const rollsSymbol = Symbol('rolls');
 
 class RollResults {
   /**
-   * @param {RollResult[]=} rolls
+   * @param {[]=} rolls
    */
   constructor(rolls) {
     this.rolls = rolls || [];
   }
 
   /**
-   * Returns the numbers of rolls
+   * Returns the number of rolls
    *
    * @returns {number}
    */
@@ -54,18 +54,52 @@ class RollResults {
    * @returns {number}
    */
   get value() {
-    return this.rolls.reduce((v, roll) => v + (roll.useInTotal ? roll.calculationValue : 0), 0);
+    return this.rolls.reduce((v, roll) => {
+      let val = 0;
+
+      if (roll instanceof RollResults) {
+        val = roll.value;
+      } else if (roll instanceof RollResult) {
+        val = (roll.useInTotal ? roll.calculationValue : 0);
+      }
+
+      return v + val;
+    }, 0);
   }
 
   /**
    * Adds a single roll to the list
    *
-   * @param {RollResult|number} value
+   * @param {RollResults|RollResult|number[]|number} value
    */
   addRoll(value) {
-    const result = (value instanceof RollResult) ? value : new RollResult(value);
+    let val;
 
-    this[rollsSymbol].push(result);
+    if ((value instanceof RollResults) || (value instanceof RollResult)) {
+      // already a valid result object
+      val = value;
+    } else if (Array.isArray(value)) {
+      val = new RollResults(value);
+    } else if ((typeof value === 'object') && Array.isArray(value.rolls)) {
+      // object with rolls - try to convert to a RollResults object
+      val = new RollResults(value.rolls);
+    } else {
+      // try to convert to a RollResult
+      val = new RollResult(value);
+    }
+
+    this[rollsSymbol].push(val);
+  }
+
+  /**
+   * Returns the roll result at the given index,
+   * or undefined if index is undefined
+   *
+   * @param index
+   * @returns {RollResult|undefined}
+   */
+  getRoll(index) {
+    return this.rolls[index] || undefined;
   }
 
   /**
@@ -89,6 +123,16 @@ class RollResults {
    */
   toString() {
     return `[${this.rolls.join(', ')}]`;
+  }
+
+  /**
+   * Returns the roll values iterable,
+   * allowing the object to be iterated
+   *
+   * @returns {IterableIterator<RollResult>}
+   */
+  [Symbol.iterator]() {
+    return this.rolls.values();
   }
 }
 

@@ -12,11 +12,11 @@ class CriticalFailureModifier extends ComparisonModifier {
    * Runs the modifier on the rolls
    *
    * @param {RollResults} results
-   * @param {StandardDice} _dice
+   * @param {StandardDice} _context
    *
    * @returns {RollResults}
    */
-  run(results, _dice) {
+  run(results, _context) {
     results.rolls
       .map((roll) => {
         // add the modifier flag

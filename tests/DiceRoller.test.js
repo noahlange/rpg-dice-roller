@@ -314,8 +314,8 @@ describe('DiceRoller', () => {
     });
 
     describe('protoype', () => {
-      let importRoller; let
-        notations;
+      let importRoller;
+      let notations;
 
       beforeEach(() => {
         notations = [

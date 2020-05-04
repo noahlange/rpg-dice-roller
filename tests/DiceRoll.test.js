@@ -30,14 +30,6 @@ describe('DiceRoll', () => {
   });
 
   describe('Notation', () => {
-    test('cannot be changed', () => {
-      const diceRoll = new DiceRoll('4d10');
-
-      expect(() => {
-        diceRoll.notation = 'Foo';
-      }).toThrow(TypeError);
-    });
-
     test('can be string', () => {
       const diceRoll = new DiceRoll('5d10+4d7');
 
@@ -180,15 +172,17 @@ describe('DiceRoll', () => {
       const diceRoll = new DiceRoll('4d8*(5+2d10)');
 
       // mock the roll values
-      const roll1 = new RollResults([6, 2, 5, 8]);
-      const roll2 = new RollResults([3, 9]);
+      const rolls = [
+        new RollResults([6, 2, 5, 8]),
+        new RollResults([3, 9]),
+      ];
       jest.spyOn(StandardDice.prototype, 'roll')
-        .mockImplementationOnce(() => roll1)
-        .mockImplementationOnce(() => roll2);
+        .mockImplementationOnce(() => rolls[0])
+        .mockImplementationOnce(() => rolls[1]);
 
       const results = diceRoll.roll();
 
-      expect(results).toEqual([roll1, roll2]);
+      expect(results).toEqual(rolls);
 
       jest.restoreAllMocks();
     });
@@ -326,7 +320,7 @@ describe('DiceRoll', () => {
       const diceRoll = new DiceRoll('4d8');
       const rolls = diceRoll.roll();
 
-      expect(diceRoll.rolls).toBe(rolls);
+      expect(diceRoll.rolls).toEqual(rolls);
     });
 
     test('cannot change value', () => {
@@ -384,7 +378,7 @@ describe('DiceRoll', () => {
       jest.restoreAllMocks();
     });
 
-    test('equal to total roll values', () => {
+    test('is equal to total roll values', () => {
       // mock the roll values
       const roll = new RollResults([6, 2, 5, 8]);
       jest.spyOn(StandardDice.prototype, 'roll').mockImplementation(() => roll);
@@ -397,7 +391,7 @@ describe('DiceRoll', () => {
       jest.restoreAllMocks();
     });
 
-    test('equal to rolls with equation', () => {
+    test('is equal to rolls with equation', () => {
       // mock the roll values
       const roll1 = new RollResults([3, 2, 7, 5]);
       const roll2 = new RollResults([5, 2, 4, 2, 1, 6, 5]);
@@ -416,7 +410,7 @@ describe('DiceRoll', () => {
       jest.restoreAllMocks();
     });
 
-    test('equal to rolls with modifiers', () => {
+    test('is equal to rolls with modifiers', () => {
       // mock the roll values
       jest.spyOn(StandardDice.prototype, 'rollOnce')
         .mockImplementationOnce(() => new RollResult(6))
@@ -534,6 +528,7 @@ describe('DiceRoll', () => {
         // this allows us to check that the output is correct, but ignoring the order of the
         // returned properties
         expect(JSON.parse(JSON.stringify(diceRoll))).toEqual({
+          expressions: JSON.parse(JSON.stringify(diceRoll.expressions)),
           notation: diceRoll.notation,
           output: diceRoll.output,
           rolls: JSON.parse(JSON.stringify(diceRoll.rolls)),

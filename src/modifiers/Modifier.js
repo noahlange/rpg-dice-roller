@@ -31,11 +31,11 @@ class Modifier {
    * Runs the modifier on the rolls
    *
    * @param {RollResults} results
-   * @param {StandardDice} _dice
+   * @param {StandardDice} _context
    *
    * @returns {RollResults}
    */
-  run(results, _dice) {
+  run(results, _context) {
     return results;
   }
   /* eslint-enable class-methods-use-this */

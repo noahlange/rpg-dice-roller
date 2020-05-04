@@ -43,11 +43,11 @@ class SortingModifier extends Modifier {
    * Runs the modifier on the rolls
    *
    * @param {RollResults} results
-   * @param {StandardDice} _dice
+   * @param {StandardDice|RollGroup} _context
    *
    * @returns {RollResults}
    */
-  run(results, _dice) {
+  run(results, _context) {
     const sortedResults = results;
 
     sortedResults.rolls = results.rolls.sort((a, b) => {

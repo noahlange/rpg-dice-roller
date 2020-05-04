@@ -1,19 +1,9 @@
-import math from 'mathjs-expression-parser';
 import { diceUtils, exportFormats } from './utilities/utils';
 import Parser from './parser/Parser';
-import RollGroup from './RollGroup';
-import StandardDice from './dice/StandardDice';
-import RollResults from './results/RollResults';
 import NotationError from './exceptions/NotationError';
 import RequiredArgumentError from './exceptions/RequiredArgumentErrorError';
 import DataFormatError from './exceptions/DataFormatError';
-
-/**
- * @type {symbol}
- *
- * @private
- */
-const calculateTotalSymbol = Symbol('calculateTotals');
+import HasExpressionsTrait from './HasExpressionsTrait';
 
 /**
  * The notation
@@ -24,34 +14,7 @@ const calculateTotalSymbol = Symbol('calculateTotals');
  */
 const notationSymbol = Symbol('notation');
 
-/**
- * List of dice definition objects
- *
- * @type {symbol}
- *
- * @private
- */
-const parsedNotationSymbol = Symbol('parsed-notation');
-
-/**
- * List of rolls
- *
- * @type {symbol}
- *
- * @private
- */
-const rollsSymbol = Symbol('rolls');
-
-/**
- * The roll total
- *
- * @type {symbol}
- *
- * @private
- */
-const totalSymbol = Symbol('totals');
-
-class DiceRoll {
+class DiceRoll extends HasExpressionsTrait {
   /**
    * Parses the notation and rolls the dice
    *
@@ -62,70 +25,42 @@ class DiceRoll {
       throw new RequiredArgumentError('notation');
     }
 
-    // initialise the parsed dice array
-    this[parsedNotationSymbol] = [];
+    let notationString;
+    let rolls = [];
 
-    if ((notation instanceof Object) && !Array.isArray(notation)) {
+    if (typeof notation === 'string') {
+      notationString = notation;
+    } else if ((typeof notation === 'object') && !Array.isArray(notation)) {
       // validate object
       // @todo see if we can assert that the notation is valid
       if (!notation.notation) {
         // object doesn't contain a notation property
         throw new RequiredArgumentError('notation');
-      } else if (typeof notation.notation !== 'string') {
+      }
+
+      if (typeof notation.notation !== 'string') {
         throw new NotationError(notation.notation);
-      } else if (notation.rolls) {
-        // we have rolls - validate them
-        if (!Array.isArray(notation.rolls)) {
-          // rolls is not an array
-          throw new TypeError(`Rolls must be an Array: ${notation.rolls}`);
-        } else {
-          // if roll is a RollResults, return it, otherwise try to convert to a RollResults object
-          this[rollsSymbol] = notation.rolls
-            .map((roll) => {
-              if (roll instanceof RollResults) {
-                // already a RollResults object
-                return roll;
-              } if (Array.isArray(roll)) {
-                // array of values
-                return new RollResults(roll);
-              } if ((roll instanceof Object) && Array.isArray(roll.rolls)) {
-                // object with list of rolls
-                return new RollResults(roll.rolls);
-              }
-
-              return null;
-            })
-            .filter(Boolean);
-        }
       }
 
       // store the notation
-      this[notationSymbol] = notation.notation;
+      notationString = notation.notation;
 
-      // parse the notation
-      this[parsedNotationSymbol] = Parser.parse(this.notation);
-
-      if (!this[rollsSymbol] || !this[rollsSymbol].length) {
-        // ensure rolls is an empty array
-        this[rollsSymbol] = [];
-
-        // roll the dice
-        this.roll();
-      }
-    } else if (typeof notation === 'string') {
-      // @todo see if we can assert that the notation is valid
-      // store the notation
-      this[notationSymbol] = notation;
-      // empty the current rolls
-      this[rollsSymbol] = [];
-
-      // parse the notation
-      this[parsedNotationSymbol] = Parser.parse(this.notation);
-
-      // roll the dice
-      this.roll();
+      // store any defined rolls
+      rolls = notation.rolls || [];
     } else {
       throw new NotationError(notation);
+    }
+
+    // call the parent constructor to store the expressions and rolls
+    super(Parser.parse(notationString), rolls);
+
+    // @todo see if we can assert that the notation is valid
+    // store the notation
+    this[notationSymbol] = notationString;
+
+    if (!this.hasRolls()) {
+      // if no rolls supplied we should roll the dice
+      this.roll();
     }
   }
 
@@ -181,63 +116,11 @@ class DiceRoll {
    * @returns {string}
    */
   get output() {
-    let rollIndex = 0;
-    let output = `${this.notation}: `;
-
-    if (this.hasRolls()) {
-      output += this[parsedNotationSymbol]
-        .map((item) => {
-          if (item instanceof StandardDice) {
-            const rollResults = this.rolls[rollIndex] || null;
-
-            // increment the roll index
-            rollIndex += 1;
-
-            return rollResults;
-          }
-
-          if (item instanceof RollGroup) {
-            // @todo handle roll groups
-          }
-
-          return item;
-        })
-        // remove any empty values
-        .filter(Boolean)
-        // join into a single string
-        .join('');
-
-      // add the total
-      output += ` = ${this.total}`;
-    } else {
-      output += 'No dice rolled';
+    if (!this.hasRolls()) {
+      return `${this.notation}: No dice rolled`;
     }
 
-    return output;
-  }
-
-  /**
-   * The dice rolled for the notation
-   *
-   * @returns {RollResults[]}
-   */
-  get rolls() {
-    return this[rollsSymbol] || [];
-  }
-
-  /**
-   * Returns the roll total
-   *
-   * @returns {number}
-   */
-  get total() {
-    // only calculate the total if it has not already been done
-    if (!this[totalSymbol] && this.hasRolls()) {
-      this[totalSymbol] = this[calculateTotalSymbol]();
-    }
-
-    // return the total
-    return this[totalSymbol] || 0;
+    return `${this.notation}: ${super.output} = ${this.total}`;
   }
 
   /** ***********************
@@ -267,41 +150,12 @@ class DiceRoll {
   }
 
   /**
-   * Returns whether the object has rolled dice or not
+   * Rolls the dice and returns an array of roll results
    *
-   * @returns {boolean}
-   */
-  hasRolls() {
-    return !!(this[parsedNotationSymbol] && Array.isArray(this.rolls) && this.rolls.length);
-  }
-
-  /**
-   * Rolls the dice for the existing notation.
-   * This is useful if you want to re-roll the dice,
-   * for some reason, but it's usually better to
-   * create a new DiceRoll instance instead.
-   *
-   * @returns {Array}
+   * @returns {RollResults|[]}
    */
   roll() {
-    // clear the roll log
-    this[rollsSymbol] = [];
-
-    // reset the cached total
-    this[totalSymbol] = 0;
-
-    // saved the rolls to the log
-    this[rollsSymbol] = this[parsedNotationSymbol].map((item) => {
-      if ((item instanceof StandardDice) || (item instanceof RollGroup)) {
-        // roll the object and return the value
-        return item.roll();
-      }
-
-      return null;
-    }).filter(Boolean);
-
-    // return the rolls;
-    return this[rollsSymbol];
+    return super.roll().rolls || [];
   }
 
   /**
@@ -310,61 +164,15 @@ class DiceRoll {
    * @returns {{}}
    */
   toJSON() {
-    const {
-      notation, output, rolls, total,
-    } = this;
+    const { notation } = this;
 
-    return {
-      notation,
-      output,
-      rolls,
-      total,
-      type: 'dice-roll',
-    };
-  }
-
-  /**
-   * Returns the String representation
-   * of the object as the roll notation
-   *
-   * @returns {string}
-   */
-  toString() {
-    return this.output;
-  }
-
-  /** ***********************
-   * Private Methods
-   ************************ */
-
-  /**
-   * Calculates the total roll value and returns it
-   *
-   * @returns {Number}
-   */
-  [calculateTotalSymbol]() {
-    let formula = '';
-    let rollIndex = 0;
-
-    if (this.hasRolls()) {
-      // loop through each roll and calculate the totals
-      this[parsedNotationSymbol].forEach((item) => {
-        // @todo need to handle roll groups
-        if (item instanceof StandardDice) {
-          // @todo should roll results be stored on their relevant parsed object?
-          // item is a die - total the rolls for it
-          formula += this.rolls[rollIndex] ? this.rolls[rollIndex].value : 0;
-
-          // increment the roll index and store the previous rolls / parsed die
-          rollIndex += 1;
-        } else {
-          formula += item;
-        }
-      });
-    }
-
-    // if a total formula has been produced, evaluate it and round it to max 2 decimal places
-    return formula ? diceUtils.toFixed(math.eval(formula), 2) : 0;
+    return Object.assign(
+      super.toJSON(),
+      {
+        notation,
+        type: 'dice-roll',
+      },
+    );
   }
 }
 

@@ -121,6 +121,32 @@ describe('RollResults', () => {
         new RollResult(4),
       ]);
     });
+
+    test('is iterable', () => {
+      // ensure that it has an iterable symbol
+      expect(typeof results[Symbol.iterator]).toEqual('function');
+
+      let i = 0;
+
+      /* eslint-disable no-restricted-syntax */
+      for (const result of results) {
+        expect(result).toBeInstanceOf(RollResult);
+
+        expect(result).toBe(results.rolls[i]);
+
+        i += 1;
+      }
+
+      Array.from(results, (result, j) => {
+        expect(result).toBeInstanceOf(RollResult);
+
+        expect(result).toBe(results.rolls[j]);
+
+        return result;
+      });
+
+      expect([...results]).toEqual(results.rolls);
+    });
   });
 
   describe('length', () => {
