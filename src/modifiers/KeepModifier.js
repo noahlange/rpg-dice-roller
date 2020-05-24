@@ -1,5 +1,7 @@
 import Modifier from './Modifier';
 import { diceUtils } from '../utilities/utils';
+import StandardDice from '../dice/StandardDice';
+import RollGroup from '../RollGroup';
 
 const endSymbol = Symbol('end');
 const qtySymbol = Symbol('qty');
@@ -90,13 +92,22 @@ class KeepModifier extends Modifier {
    * Runs the modifier on the rolls
    *
    * @param {RollResults} results
-   * @param {StandardDice} _context
+   * @param {StandardDice|RollGroup} _context
    *
    * @returns {RollResults}
    */
   run(results, _context) {
+    const returnResults = results;
+
+    let rolls;
+    if (_context instanceof StandardDice) {
+      rolls = returnResults.rolls;
+    } else if (_context instanceof RollGroup) {
+      rolls = returnResults.length === 1 ? returnResults[0].rolls : returnResults;
+    }
+
     // first clone the rolls so it doesn't affect the original array
-    const rollIndexes = [...results.rolls]
+    const rollIndexes = [...rolls]
       // get a list of objects with roll values and original index
       .map((roll, index) => ({
         value: roll.value,
@@ -106,17 +117,21 @@ class KeepModifier extends Modifier {
       .sort((a, b) => ((this.end === 'h') ? b.value - a.value : a.value - b.value))
       .map((rollIndex) => rollIndex.index)
       // get the roll indexes to drop
-      .slice(...this.rangeToDrop(results));
+      .slice(...this.rangeToDrop(rolls));
 
     // loop through all of our dice to drop and flag them as such
     rollIndexes.forEach((rollIndex) => {
-      const roll = results.rolls[rollIndex];
+      const roll = rolls[rollIndex];
 
       roll.modifiers.add('drop');
       roll.useInTotal = false;
     });
 
-    return results;
+    console.log('Rolls');
+    console.log(rolls);
+    console.log(returnResults);
+
+    return returnResults;
   }
 
   /**

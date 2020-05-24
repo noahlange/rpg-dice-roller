@@ -186,12 +186,11 @@ class HasExpressionsTrait {
       return null;
     }).filter(Boolean);
 
-    if (Array.isArray(this.modifiers) && (this.modifiers.length > 0)) {
-      // loop through each modifier and carry out its actions
-      (this.modifiers || []).forEach((modifier) => {
-        modifier.run(rolls, this);
-      });
-    }
+    // loop through each modifier and carry out its actions
+    console.log(this.modifiers);
+    (this.modifiers || []).forEach((modifier) => {
+      modifier.run(rolls, this);
+    });
 
     // create a new result object to hold the rolls
     this[rollsSymbol] = new RollResults(rolls);

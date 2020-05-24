@@ -1,13 +1,19 @@
 import RollResult from './RollResult';
 
+const modifiersSymbol = Symbol('modifiers');
 const rollsSymbol = Symbol('rolls');
+const useInTotalSymbol = Symbol('use-in-total');
 
 class RollResults {
   /**
    * @param {[]=} rolls
+   * @param {string[]|Set<string>=} modifiers List of modifier names that affect this roll
+   * @param {boolean=} useInTotal Whether to include the roll value when calculating totals
    */
-  constructor(rolls) {
+  constructor(rolls, modifiers, useInTotal = true) {
+    this.modifiers = modifiers || [];
     this.rolls = rolls || [];
+    this.useInTotal = useInTotal;
   }
 
   /**
@@ -17,6 +23,85 @@ class RollResults {
    */
   get length() {
     return this.rolls.length || 0;
+  }
+
+  /**
+   * Returns the flags for the modifiers that affect the roll
+   *
+   * @returns {string}
+   */
+  get modifierFlags() {
+    // @todo need a better way of mapping modifiers to symbols
+    return [...this.modifiers].reduce((acc, modifier) => {
+      let flag;
+
+      switch (modifier) {
+        case 'compound':
+        case 'explode':
+          flag = '!';
+          break;
+        case 'critical-failure':
+          flag = '__';
+          break;
+        case 'critical-success':
+          flag = '**';
+          break;
+        case 'drop':
+          flag = 'd';
+          break;
+        case 'penetrate':
+          flag = 'p';
+          break;
+        case 're-roll':
+          flag = 'r';
+          break;
+        case 're-roll-once':
+          flag = 'ro';
+          break;
+        case 'target-failure':
+          flag = '_';
+          break;
+        case 'target-success':
+          flag = '*';
+          break;
+        default:
+          flag = modifier;
+          break;
+      }
+
+      return acc + flag;
+    }, '');
+  }
+
+  /**
+   * Returns the modifiers that affect the roll
+   *
+   * @returns {Set<string>}
+   */
+  get modifiers() {
+    return this[modifiersSymbol] || new Set();
+  }
+
+  /**
+   * Set the modifiers that affect the roll
+   *
+   * @param value
+   */
+  set modifiers(value) {
+    if ((Array.isArray(value) || (value instanceof Set)) && [...value].every((item) => typeof item === 'string')) {
+      this[modifiersSymbol] = new Set([...value]);
+
+      return;
+    }
+
+    if (!value && (value !== 0)) {
+      // clear the modifiers
+      this[modifiersSymbol] = new Set();
+
+      return;
+    }
+
+    throw new TypeError(`modifiers must be a Set or array of modifier names: ${value}`);
   }
 
   /**
@@ -46,6 +131,24 @@ class RollResults {
     rolls.forEach((result) => {
       this.addRoll(result);
     });
+  }
+
+  /**
+   * Returns the useInTotal flag
+   *
+   * @returns {boolean}
+   */
+  get useInTotal() {
+    return !!this[useInTotalSymbol];
+  }
+
+  /**
+   * Sets the useInTotal flag
+   *
+   * @param {boolean} value
+   */
+  set useInTotal(value) {
+    this[useInTotalSymbol] = !!value;
   }
 
   /**
@@ -108,10 +211,16 @@ class RollResults {
    * @returns {{}}
    */
   toJSON() {
-    const { rolls, value } = this;
+    const {
+      modifierFlags, modifiers, rolls, useInTotal, value,
+    } = this;
 
     return {
+      modifierFlags,
+      modifiers: [...modifiers],
       rolls,
+      type: 'results',
+      useInTotal,
       value,
     };
   }
@@ -122,7 +231,13 @@ class RollResults {
    * @returns {string}
    */
   toString() {
-    return `[${this.rolls.join(', ')}]`;
+    let output = `[${this.rolls.join(', ')}]`;
+
+    if (this.modifierFlags) {
+      output = `(${output})${this.modifierFlags}`;
+    }
+
+    return output;
   }
 
   /**

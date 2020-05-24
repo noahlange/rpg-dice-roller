@@ -307,75 +307,6 @@ describe('RollGroup', () => {
       jest.restoreAllMocks();
     });
 
-    test('JSON output is correct with no rolls', () => {
-      const rollGroup = new RollGroup('{}');
-
-      rollGroup.roll();
-
-      expect(JSON.parse(JSON.stringify(rollGroup))).toEqual({
-        expressions: [],
-        modifiers: {},
-        notation: '{}',
-        output: '{}',
-        rolls: [],
-        total: 0,
-        type: 'group',
-      });
-    });
-
-    test('JSON output is correct (Single sub-roll)', () => {
-      const rollExpressions = [[expressions[0]]];
-      const rollGroup = new RollGroup('{4d8}', rollExpressions);
-
-      rollGroup.roll();
-
-      // json encode, to get the encoded string, then decode so we can compare the object
-      // this allows us to check that the output is correct, but ignoring the order of the
-      // returned properties
-      expect(JSON.parse(JSON.stringify(rollGroup))).toEqual({
-        expressions: JSON.parse(JSON.stringify(rollExpressions)),
-        modifiers: {},
-        notation: '{4d8}',
-        output: '{[3, 2, 7, 5]}',
-        rolls: [
-          JSON.parse(JSON.stringify(new RollResults(rolls[0]))),
-        ],
-        total: 17,
-        type: 'group',
-      });
-    });
-
-    test('JSON output is correct (Multiple sub-rolls)', () => {
-      const rollExpressions = [
-        [
-          expressions[0],
-          '/',
-          expressions[1],
-        ],
-        [
-          3,
-          '/',
-          expressions[2],
-        ],
-      ];
-      const rollGroup = new RollGroup('{4d8/(5+2)d6, 3/2d(4+1)}', rollExpressions);
-
-      rollGroup.roll();
-
-      // json encode, to get the encoded string, then decode so we can compare the object
-      // this allows us to check that the output is correct, but ignoring the order of the
-      // returned properties
-      expect(JSON.parse(JSON.stringify(rollGroup))).toEqual({
-        expressions: JSON.parse(JSON.stringify(rollExpressions)),
-        modifiers: {},
-        notation: '{4d8/(5+2)d6, 3/2d(4+1)}',
-        output: '{[3, 2, 7, 5]/[5, 2, 4, 2, 1, 6, 5], 3/[3, 5]}',
-        rolls: JSON.parse(JSON.stringify(new RollResults(rolls).rolls)),
-        total: 1.06,
-        type: 'group',
-      });
-    });
-
     test('String output is correct with no rolls', () => {
       const rollGroup = new RollGroup('{}');
 
@@ -384,31 +315,172 @@ describe('RollGroup', () => {
       expect(rollGroup.toString()).toEqual('{}');
     });
 
-    test('String output is correct (Single sub-roll)', () => {
-      const rollGroup = new RollGroup('{4d8}', [[expressions[0]]]);
+    describe('Without modifiers', () => {
+      test('String output is correct (Single sub-roll)', () => {
+        const rollGroup = new RollGroup('{4d8}', [[expressions[0]]]);
 
-      rollGroup.roll();
+        rollGroup.roll();
 
-      expect(rollGroup.toString()).toEqual('{[3, 2, 7, 5]}');
+        expect(rollGroup.toString()).toEqual('{[3, 2, 7, 5]}');
+      });
+
+      test('String output is correct (Multiple sub-roll)', () => {
+        const rollGroup = new RollGroup('{4d8/(5+2)d6, 3/2d(4+1)}', [
+          [
+            expressions[0],
+            '/',
+            expressions[1],
+          ],
+          [
+            3,
+            '/',
+            expressions[2],
+          ],
+        ]);
+
+        rollGroup.roll();
+
+        expect(rollGroup.toString()).toEqual('{[3, 2, 7, 5]/[5, 2, 4, 2, 1, 6, 5], 3/[3, 5]}');
+      });
+
+      test('JSON output is correct with no rolls', () => {
+        const rollGroup = new RollGroup('{}');
+
+        rollGroup.roll();
+
+        expect(JSON.parse(JSON.stringify(rollGroup))).toEqual({
+          expressions: [],
+          modifiers: {},
+          notation: '{}',
+          output: '{}',
+          rolls: [],
+          total: 0,
+          type: 'group',
+        });
+      });
+
+      test('JSON output is correct (Single sub-roll)', () => {
+        const rollExpressions = [[expressions[0]]];
+        const rollGroup = new RollGroup('{4d8}', rollExpressions);
+
+        rollGroup.roll();
+
+        // json encode, to get the encoded string, then decode so we can compare the object
+        // this allows us to check that the output is correct, but ignoring the order of the
+        // returned properties
+        expect(JSON.parse(JSON.stringify(rollGroup))).toEqual({
+          expressions: JSON.parse(JSON.stringify(rollExpressions)),
+          modifiers: {},
+          notation: '{4d8}',
+          output: '{[3, 2, 7, 5]}',
+          rolls: [
+            JSON.parse(JSON.stringify(new RollResults(rolls[0]))),
+          ],
+          total: 17,
+          type: 'group',
+        });
+      });
+
+      test('JSON output is correct (Multiple sub-rolls)', () => {
+        const rollExpressions = [
+          [
+            expressions[0],
+            '/',
+            expressions[1],
+          ],
+          [
+            3,
+            '/',
+            expressions[2],
+          ],
+        ];
+        const rollGroup = new RollGroup('{4d8/(5+2)d6, 3/2d(4+1)}', rollExpressions);
+
+        rollGroup.roll();
+
+        // json encode, to get the encoded string, then decode so we can compare the object
+        // this allows us to check that the output is correct, but ignoring the order of the
+        // returned properties
+        expect(JSON.parse(JSON.stringify(rollGroup))).toEqual({
+          expressions: JSON.parse(JSON.stringify(rollExpressions)),
+          modifiers: {},
+          notation: '{4d8/(5+2)d6, 3/2d(4+1)}',
+          output: '{[3, 2, 7, 5]/[5, 2, 4, 2, 1, 6, 5], 3/[3, 5]}',
+          rolls: JSON.parse(JSON.stringify(new RollResults(rolls).rolls)),
+          total: 1.06,
+          type: 'group',
+        });
+      });
     });
 
-    test('String output is correct (Multiple sub-roll)', () => {
-      const rollGroup = new RollGroup('{4d8/(5+2)d6, 3/2d(4+1)}', [
-        [
-          expressions[0],
-          '/',
-          expressions[1],
-        ],
-        [
-          3,
-          '/',
-          expressions[2],
-        ],
-      ]);
+    describe.only('With modifiers', () => {
+      test('String output is correct with modifiers (Single sub-roll)', () => {
+        const rollGroup = new RollGroup('{4d8}k1', [[expressions[0]]]);
 
-      rollGroup.roll();
+        rollGroup.roll();
 
-      expect(rollGroup.toString()).toEqual('{[3, 2, 7, 5]/[5, 2, 4, 2, 1, 6, 5], 3/[3, 5]}');
+        expect(rollGroup.toString()).toEqual('{[3d, 2d, 7, 5d]}');
+      });
+
+      test('String output is correct (Multiple sub-roll)', () => {
+        const rollGroup = new RollGroup('{4d8/(5+2)d6, 3/2d(4+1)}k1', [
+          [
+            expressions[0],
+            '/',
+            expressions[1],
+          ],
+          [
+            3,
+            '/',
+            expressions[2],
+          ],
+        ]);
+
+        rollGroup.roll();
+
+        expect(rollGroup.toString()).toEqual('{[3, 2, 7, 5]/[5, 2, 4, 2, 1, 6, 5], (3/[3, 5])d}');
+      });
+
+      test('JSON output is correct (Single sub-rolls)', () => {
+        const notation = '{4d8}kh';
+        const rollExpressions = [[expressions[0]]];
+        const modifiers = new Map([['KeepModifier-h', new KeepModifier('k1', 'h')]]);
+        const rollGroup = new RollGroup(notation, rollExpressions, modifiers);
+
+        rollGroup.roll();
+
+        expect(rollGroup.notation).toEqual(notation);
+        expect(rollGroup.expressions).toEqual(rollExpressions);
+        expect(rollGroup.modifiers).toEqual(modifiers);
+        expect(rollGroup.output).toEqual('{[3d, 2d, 7, 5d]}');
+        expect(rollGroup.total).toEqual(7);
+      });
+
+      test('JSON output is correct (Multiple sub-rolls)', () => {
+        const notation = '{4d8/(5+2)d6, 3/2d(4+1)}k1';
+        const rollExpressions = [
+          [
+            expressions[0],
+            '/',
+            expressions[1],
+          ],
+          [
+            3,
+            '/',
+            expressions[2],
+          ],
+        ];
+        const modifiers = new Map([['KeepModifier-h', new KeepModifier('k1', 'h')]]);
+        const rollGroup = new RollGroup(notation, rollExpressions, modifiers);
+
+        rollGroup.roll();
+
+        expect(rollGroup.notation).toEqual(notation);
+        expect(rollGroup.expressions).toEqual(rollExpressions);
+        expect(rollGroup.modifiers).toEqual(modifiers);
+        expect(rollGroup.output).toEqual('{[3, 2, 7, 5]/[5, 2, 4, 2, 1, 6, 5], (3/[3, 5])d}');
+        expect(rollGroup.total).toEqual(0.68);
+      });
     });
   });
 
