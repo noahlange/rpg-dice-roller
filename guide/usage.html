@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Usage | RPG Dice Roller</title>
+    <meta name="generator" content="VuePress 1.5.2">
+    
+    <meta name="description" content="A JS based dice roller that can roll various types of dice and modifiers, along with mathematical equations.">
+    <link rel="preload" href="/rpg-dice-roller/assets/css/0.styles.893791b5.css" as="style"><link rel="preload" href="/rpg-dice-roller/assets/js/app.a79e6617.js" as="script"><link rel="preload" href="/rpg-dice-roller/assets/js/2.14bf3d85.js" as="script"><link rel="preload" href="/rpg-dice-roller/assets/js/21.c2d257a6.js" as="script"><link rel="prefetch" href="/rpg-dice-roller/assets/js/10.5cf8462e.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/11.afd50a78.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/12.5f80a6b1.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/13.a954f30d.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/14.3a25339c.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/15.f60fa773.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/16.859a4a60.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/17.3d10ba5d.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/18.062bc7cc.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/19.81240d45.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/20.d61e8f6e.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/22.e491da94.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/3.cbe29189.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/4.752d58d3.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/5.5cd3b17f.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/6.97296f16.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/7.b8863183.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/8.424d3105.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/9.3b14a538.js">
+    <link rel="stylesheet" href="/rpg-dice-roller/assets/css/0.styles.893791b5.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/rpg-dice-roller/" class="home-link router-link-active"><img src="/rpg-dice-roller/hero.svg" alt="RPG Dice Roller" class="logo"> <span class="site-name can-hide">RPG Dice Roller</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/rpg-dice-roller/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/api/" class="nav-link">
+  API
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/contributing/" class="nav-link">
+  Contribute
+</a></div> <a href="https://github.com/GreenImp/rpg-dice-roller" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/rpg-dice-roller/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/api/" class="nav-link">
+  API
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/contributing/" class="nav-link">
+  Contribute
+</a></div> <a href="https://github.com/GreenImp/rpg-dice-roller" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Guide</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/rpg-dice-roller/guide/" aria-current="page" class="sidebar-link">Introduction</a></li><li><a href="/rpg-dice-roller/guide/getting-started.html" class="sidebar-link">Get Started</a></li><li><a href="/rpg-dice-roller/guide/usage.html" aria-current="page" class="active sidebar-link">Usage</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/rpg-dice-roller/guide/usage.html#try-it-yourself" class="sidebar-link">Try it yourself</a></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Notation</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="usage"><a href="#usage" class="header-anchor">#</a> Usage</h1> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// create a DiceRoller instance - this keeps a log of previous rolls</span>
+<span class="token keyword">const</span> roller <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DiceRoller</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// to roll a dice, you need to pass a formatted &quot;notation&quot; to the `roll()` method.</span>
+<span class="token comment">// this would roll a 20 sided dice 4 times and store the result</span>
+<span class="token keyword">let</span> roll <span class="token operator">=</span> roller<span class="token punctuation">.</span><span class="token function">roll</span><span class="token punctuation">(</span><span class="token string">'4d20'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// output the latest roll - it outputs formatted text when cast to a string</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">You rolled: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>roll<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// You rolled: 4d20: [4, 18, 15, 11] = 48</span>
+
+<span class="token comment">// roll several notations all at once, and store their DiceRoll objects</span>
+<span class="token keyword">const</span> rolls <span class="token operator">=</span> roller<span class="token punctuation">.</span><span class="token function">roll</span><span class="token punctuation">(</span><span class="token string">'1d6'</span><span class="token punctuation">,</span> <span class="token string">'2d4dh1'</span><span class="token punctuation">,</span> <span class="token string">'5d10!!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// output all of the rolls from the DiceRoller log</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">You rolled lots: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>roller<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// You rolled lots: 4d20: [4, 18, 15, 11] = 48; 1d6: [3] = 3; 2d4dh1: [3d, 1] = 1; 5d10!! = [3, 2, 16!!, 3, 9] = 33</span>
+
+<span class="token comment">// empty the roll log</span>
+roller<span class="token punctuation">.</span><span class="token function">clearLog</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// output an empty log</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Looks empty: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>roller<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Looks empty: </span>
+
+
+<span class="token comment">// If you don't need to keep a roll log, you can pass the notation to an instance of `DiceRoll` (Instead of `DiceRoller`)</span>
+roll <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DiceRoll</span><span class="token punctuation">(</span><span class="token string">'4d10*3'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// output the roll</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">You rolled: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>roll<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// You rolled: 4d10*3: [8, 3, 4, 6]*3 = 63</span>
+</code></pre></div><p>Check the <a href="/notation/readme">notation</a> section for more examples.</p> <p>Check the <a href="/rpg-dice-roller/api/">API</a> section for more details on using the dice roller.</p> <h2 id="try-it-yourself"><a href="#try-it-yourself" class="header-anchor">#</a> Try it yourself</h2> <section class="dice-roller" data-v-ce4c219c><!----> <input type="text" name="notation" id="notation-12" placeholder="e.g. 4d6" value="" data-v-ce4c219c> <!----> <footer data-v-ce4c219c><label for="notation-12" data-v-ce4c219c>
+      Enter the notation and press &quot;enter&quot; to roll the dice!
+    </label></footer></section></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/GreenImp/rpg-dice-roller-docs/edit/develop/docs/guide/usage.md" target="_blank" rel="noopener noreferrer">Edit this page</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">6/29/2020, 1:50:39 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/rpg-dice-roller/guide/getting-started.html" class="prev">
+        Get Started
+      </a></span> <span class="next"><a href="/rpg-dice-roller/guide/notation/">
+        What notations are
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/rpg-dice-roller/assets/js/app.a79e6617.js" defer></script><script src="/rpg-dice-roller/assets/js/2.14bf3d85.js" defer></script><script src="/rpg-dice-roller/assets/js/21.c2d257a6.js" defer></script>
+  </body>
+</html>

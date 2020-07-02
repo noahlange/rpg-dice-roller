@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>RPG Dice Roller</title>
+    <meta name="generator" content="VuePress 1.5.2">
+    
+    <meta name="description" content="A JS based dice roller that can roll various types of dice and modifiers, along with mathematical equations.">
+    <link rel="preload" href="/rpg-dice-roller/assets/css/0.styles.893791b5.css" as="style"><link rel="preload" href="/rpg-dice-roller/assets/js/app.a79e6617.js" as="script"><link rel="preload" href="/rpg-dice-roller/assets/js/2.14bf3d85.js" as="script"><link rel="preload" href="/rpg-dice-roller/assets/js/22.e491da94.js" as="script"><link rel="prefetch" href="/rpg-dice-roller/assets/js/10.5cf8462e.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/11.afd50a78.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/12.5f80a6b1.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/13.a954f30d.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/14.3a25339c.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/15.f60fa773.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/16.859a4a60.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/17.3d10ba5d.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/18.062bc7cc.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/19.81240d45.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/20.d61e8f6e.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/21.c2d257a6.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/3.cbe29189.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/4.752d58d3.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/5.5cd3b17f.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/6.97296f16.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/7.b8863183.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/8.424d3105.js"><link rel="prefetch" href="/rpg-dice-roller/assets/js/9.3b14a538.js">
+    <link rel="stylesheet" href="/rpg-dice-roller/assets/css/0.styles.893791b5.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/rpg-dice-roller/" aria-current="page" class="home-link router-link-exact-active router-link-active"><img src="/rpg-dice-roller/hero.svg" alt="RPG Dice Roller" class="logo"> <span class="site-name can-hide">RPG Dice Roller</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/rpg-dice-roller/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Home
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/api/" class="nav-link">
+  API
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/contributing/" class="nav-link">
+  Contribute
+</a></div> <a href="https://github.com/GreenImp/rpg-dice-roller" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/rpg-dice-roller/" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  Home
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/guide/" class="nav-link">
+  Guide
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/api/" class="nav-link">
+  API
+</a></div><div class="nav-item"><a href="/rpg-dice-roller/contributing/" class="nav-link">
+  Contribute
+</a></div> <a href="https://github.com/GreenImp/rpg-dice-roller" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <!----> </aside> <main aria-labelledby="main-title" class="home"><header class="hero"><img src="/rpg-dice-roller/hero.svg" alt="hero"> <h1 id="main-title">
+      RPG Dice Roller
+    </h1> <p class="description">
+      Easy advanced dice rolling
+    </p> <p class="action"><a href="/rpg-dice-roller/guide/" class="nav-link action-button">
+  Get Started →
+</a></p></header> <div class="features"><div class="feature"><h2>Highly advanced</h2> <p>Can handle multiple types of dice, with a range of modifiers and mathematical functions</p></div><div class="feature"><h2>Easy to use</h2> <p>Simple to implement, and easy as rolling dice</p></div><div class="feature"><h2>Standard syntax</h2> <p>Roll notation based on a standard syntax, with some extra bells and whistles</p></div></div> <div class="theme-default-content custom content__default"><p><a href="https://travis-ci.org/GreenImp/rpg-dice-roller" target="_blank" rel="noopener noreferrer"><img src="https://travis-ci.org/GreenImp/rpg-dice-roller.svg?branch=master" alt="Build Status"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> <a href="https://coveralls.io/github/GreenImp/rpg-dice-roller" target="_blank" rel="noopener noreferrer"><img src="https://coveralls.io/repos/github/GreenImp/rpg-dice-roller/badge.svg" alt="Coverage Status"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> <a href="licence.txt"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT license"></a> <a href="https://www.npmjs.com/package/rpg-dice-roller" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/npm/dm/rpg-dice-roller" alt="npm downloads"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <h2 id="try-me"><a href="#try-me" class="header-anchor">#</a> Try me</h2> <p>Have a play and see how it works</p> <section class="dice-roller" data-v-ce4c219c><!----> <input type="text" name="notation" id="notation-13" placeholder="e.g. 4d6d1" value="4d6d1" data-v-ce4c219c> <!----> <footer data-v-ce4c219c><label for="notation-13" data-v-ce4c219c>
+      Enter the notation and press &quot;enter&quot; to roll the dice!
+    </label></footer></section></div> <div class="footer">
+    MIT Licensed | Copyright © 2015-present GreenImp ltd.
+  </div></main></div><div class="global-ui"><!----></div></div>
+    <script src="/rpg-dice-roller/assets/js/app.a79e6617.js" defer></script><script src="/rpg-dice-roller/assets/js/2.14bf3d85.js" defer></script><script src="/rpg-dice-roller/assets/js/22.e491da94.js" defer></script>
+  </body>
+</html>
